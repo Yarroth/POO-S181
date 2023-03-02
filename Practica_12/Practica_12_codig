@@ -1,0 +1,50 @@
+import tkinter as tk
+
+class Usuario:
+    def __init__(self, correo, contrasena):
+        self.correo = correo
+        self.contrasena = contrasena
+
+    def iniciar_sesion(self, correo, contrasena):
+        if correo == self.correo and contrasena == self.contrasena:
+            return True
+        else:
+            return False
+
+class InterfazLogin:
+    def __init__(self, ventana):
+        self.ventana = ventana
+        self.ventana.geometry("400x200") # ajustar tamaño de ventana
+        self.etiqueta_correo = tk.Label(self.ventana, text="Correo:")
+        self.etiqueta_correo.pack()
+        self.entrada_correo = tk.Entry(self.ventana)
+        self.entrada_correo.pack()
+        self.etiqueta_contrasena = tk.Label(self.ventana, text="Contraseña:")
+        self.etiqueta_contrasena.pack()
+        self.entrada_contrasena = tk.Entry(self.ventana, show="*")
+        self.entrada_contrasena.pack()
+        self.boton_iniciar = tk.Button(self.ventana, text="Iniciar sesión", command=self.iniciar_sesion)
+        self.boton_iniciar.pack()
+
+    def verificar_login(self, correo, contrasena):
+        usuario = Usuario("correo_ejemplo@dominio.com", "contrasena_ejemplo")
+        return usuario.iniciar_sesion(correo, contrasena)
+
+    def mostrar_mensaje(self, mensaje):
+        ventana_mensaje = tk.Toplevel(self.ventana)
+        etiqueta_mensaje = tk.Label(ventana_mensaje, text=mensaje)
+        etiqueta_mensaje.pack()
+
+    def iniciar_sesion(self):
+        correo = self.entrada_correo.get()
+        contrasena = self.entrada_contrasena.get()
+
+        if self.verificar_login(correo, contrasena):
+            self.mostrar_mensaje("¡Bienvenido!")
+        else:
+            self.mostrar_mensaje("Usuario o contraseña incorrectos. Por favor, revise sus datos.")
+
+ventana = tk.Tk()
+ventana.title("Iniciar sesión")
+interfaz = InterfazLogin(ventana)
+ventana.mainloop()
