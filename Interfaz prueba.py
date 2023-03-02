@@ -9,6 +9,18 @@ def confirmacion(seccion):
     else:
         print("Cancelado")
 
+# Función para agregar nuevos botones a la sección verde
+def agregar_botones_verdes():
+    # Crear tres nuevos botones y agregarlos a la sección verde
+    boton4 = tk.Button(seccion2, text="Botón 4", bg="light green", command=lambda: confirmacion("4"))
+    boton4.pack(pady=10, padx=40, fill="x")
+
+    boton5 = tk.Button(seccion2, text="Botón 5", bg="lime green", command=lambda: confirmacion("5"))
+    boton5.pack(pady=10, padx=40, fill="x")
+
+    boton6 = tk.Button(seccion2, text="Botón 6", bg="green yellow", command=lambda: confirmacion("6"))
+    boton6.pack(pady=10, padx=40, fill="x")
+
 # Crear la ventana
 ventana = tk.Tk()
 ventana.geometry("300x200")
@@ -27,7 +39,7 @@ seccion3.pack(side="top", fill="both", expand=True)
 boton1 = tk.Button(seccion1, text="Rojo", bg="pink", command=lambda: confirmacion("1"))
 boton1.pack(pady=10, padx=40, fill="x")
 
-boton2 = tk.Button(seccion2, text="Verde", bg="yellow", command=lambda: confirmacion("2"))
+boton2 = tk.Button(seccion2, text="Verde", bg="yellow", command=agregar_botones_verdes)
 boton2.pack(pady=10, padx=40, fill="x")
 
 boton3 = tk.Button(seccion3, text="Azul", bg="orange", command=lambda: confirmacion("3"))
