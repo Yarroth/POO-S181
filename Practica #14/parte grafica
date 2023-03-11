@@ -1,0 +1,142 @@
+import tkinter as tk
+
+# Datos de cuenta de ejemplo
+cuentas = {
+    "1234567890": {"titular": "Juan Pérez", "edad": 30, "saldo": 10000},
+    "0987654321": {"titular": "María González", "edad": 25, "saldo": 5000}
+}
+
+# Funciones para administrar la cuenta
+def consultar_saldo(numero_cuenta):
+    if numero_cuenta in cuentas:
+        saldo = cuentas[numero_cuenta]["saldo"]
+        return saldo
+    else:
+        return None
+
+def ingresar_efectivo(numero_cuenta, monto):
+    if numero_cuenta in cuentas:
+        cuentas[numero_cuenta]["saldo"] += monto
+        return True
+    else:
+        return False
+
+def retirar_efectivo(numero_cuenta, monto):
+    if numero_cuenta in cuentas:
+        if cuentas[numero_cuenta]["saldo"] >= monto:
+            cuentas[numero_cuenta]["saldo"] -= monto
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def depositar_otra_cuenta(cuenta_origen, cuenta_destino, monto):
+    if cuenta_origen in cuentas and cuenta_destino in cuentas:
+        if cuentas[cuenta_origen]["saldo"] >= monto:
+            cuentas[cuenta_origen]["saldo"] -= monto
+            cuentas[cuenta_destino]["saldo"] += monto
+            return True
+        else:
+            return False
+    else:
+        return False
+
+# Interfaz gráfica
+root = tk.Tk()
+root.title("Caja Popular")
+
+# Definición de funciones para manejar eventos de botones
+def consultar_saldo_handler():
+    numero_cuenta = numero_cuenta_entry.get()
+    saldo = consultar_saldo(numero_cuenta)
+    if saldo is not None:
+        saldo_label.config(text=f"Saldo: {saldo}")
+    else:
+        saldo_label.config(text="Cuenta no encontrada")
+
+def ingresar_efectivo_handler():
+    numero_cuenta = numero_cuenta_entry.get()
+    monto = int(monto_entry.get())
+    if ingresar_efectivo(numero_cuenta, monto):
+        saldo_label.config(text="Ingreso exitoso")
+    else:
+        saldo_label.config(text="Cuenta no encontrada")
+
+def retirar_efectivo_handler():
+    numero_cuenta = numero_cuenta_entry.get()
+    monto = int(monto_entry.get())
+    if retirar_efectivo(numero_cuenta, monto):
+        saldo_label.config(text="Retiro exitoso")
+    else:
+        saldo_label.config(text="Fondos insuficientes o cuenta no encontrada")
+
+def depositar_otra_cuenta_handler():
+    cuenta_origen = numero_cuenta_entry.get()
+    cuenta_destino = cuenta_destino_entry.get()
+    monto = int(monto_entry.get())
+    if depositar_otra_cuenta(cuenta_origen, cuenta_destino, monto):
+        saldo_label.config(text="Depósito exitoso")
+    else:
+        saldo_label.config(text="Fondos insuficientes o cuenta no encontrada")
+
+# Definir las funciones de los botones
+def transferir_efectivo_handler():
+    pass
+
+def depositar_efectivo_handler():
+    pass
+
+# Crear los botones
+transferir_efectivo_button = tk.Button(root, text="Transferir a otra cuenta", command=transferir_efectivo_handler)
+transferir_efectivo_button.grid(row=6, column=0)
+
+# Agregar una columna vacía para separar los botones
+tk.Label(root, text="").grid(row=6, column=1)
+
+depositar_efectivo_button = tk.Button(root, text="Depositar de otra cuenta", command=depositar_efectivo_handler)
+depositar_efectivo_button.grid(row=6, column=2)
+
+# Definición de elementos de la interfaz gráfica
+numero_cuenta_label = tk.Label(root, text="Número de cuenta")
+numero_cuenta_label.grid(row=0, column=0)
+
+numero_cuenta_entry = tk.Entry(root)
+numero_cuenta_entry.grid(row=0, column=1)
+
+monto_label = tk.Label(root, text="Monto")
+monto_label.grid(row=1, column=0)
+
+monto_entry = tk.Entry(root)
+monto_entry.grid(row=1, column=1)
+
+cuenta_destino_label = tk.Label(root, text="Cuenta destino")
+cuenta_destino_label.grid(row=2, column=0)
+
+cuenta_destino_entry = tk.Entry(root)
+cuenta_destino_entry.grid(row=2, column=1)
+
+saldo_label = tk.Label(root, text="")
+saldo_label.grid(row=3, column=0, columnspan=2)
+
+consultar_saldo_button = tk.Button(root, text="Consultar saldo", command=consultar_saldo_handler)
+consultar_saldo_button.grid(row=4, column=0)
+
+ingresar_efectivo_button = tk.Button(root, text="Ingresar efectivo", command=ingresar_efectivo_handler)
+ingresar_efectivo_button.grid(row=4, column=1)
+
+retirar_efectivo_button = tk.Button(root, text="Retirar efectivo", command=retirar_efectivo_handler)
+retirar_efectivo_button.grid(row=5, column=0)
+
+depositar_otra_cuenta_button = tk.Button(root, text="Depositar a otra cuenta", command=depositar_otra_cuenta_handler)
+depositar_otra_cuenta_button.grid(row=5, column=1)
+
+transferir_efectivo_button = tk.Button(root, text="Transferir a otra cuenta", command=transferir_efectivo_handler)
+transferir_efectivo_button.grid(row=6, column=0)
+
+depositar_efectivo_button = tk.Button(root, text="Depositar de otra cuenta", command=depositar_efectivo_handler)
+depositar_efectivo_button.grid(row=6, column=1)
+
+root.mainloop()
+
+

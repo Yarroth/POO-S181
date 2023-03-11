@@ -1,0 +1,41 @@
+# Datos de cuenta de ejemplo
+cuentas = {
+    "1234567890": {"titular": "Juan Pérez", "edad": 30, "saldo": 10000},
+    "0987654321": {"titular": "María González", "edad": 25, "saldo": 5000}
+}
+
+# Funciones para administrar la cuenta
+def consultar_saldo(numero_cuenta):
+    if numero_cuenta in cuentas:
+        saldo = cuentas[numero_cuenta]["saldo"]
+        return saldo
+    else:
+        return None
+
+def ingresar_efectivo(numero_cuenta, monto):
+    if numero_cuenta in cuentas:
+        cuentas[numero_cuenta]["saldo"] += monto
+        return True
+    else:
+        return False
+
+def retirar_efectivo(numero_cuenta, monto):
+    if numero_cuenta in cuentas:
+        if cuentas[numero_cuenta]["saldo"] >= monto:
+            cuentas[numero_cuenta]["saldo"] -= monto
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def depositar_otra_cuenta(cuenta_origen, cuenta_destino, monto):
+    if cuenta_origen in cuentas and cuenta_destino in cuentas:
+        if cuentas[cuenta_origen]["saldo"] >= monto:
+            cuentas[cuenta_origen]["saldo"] -= monto
+            cuentas[cuenta_destino]["saldo"] += monto
+            return True
+        else:
+            return False
+    else:
+        return False
