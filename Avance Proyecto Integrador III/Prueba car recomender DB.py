@@ -81,13 +81,16 @@ def guardar_datos():
 
     # Insert the data into the table
     c.execute("INSERT INTO autos VALUES (?, ?, ?, ?, ?, ?, ?)",
-          (marca_entry.get(), modelo_entry.get(), ano, cilindrada, color_entry.get(),
-           nuevo_usado, precio))
-
+              (marca_entry.get(), modelo_entry.get(), ano, cilindrada, color_entry.get(),
+               nuevo_usado, precio))
 
     # Commit the changes and close the connection
     conn.commit()
     conn.close()
+
+    # Show a message box confirming that the data has been saved
+    messagebox.showinfo("Guardado", "La información del auto ha sido guardada correctamente.")
+
 
 
 # Create the button to save the data
