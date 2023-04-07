@@ -3,6 +3,63 @@ import sqlite3
 import requests
 from bs4 import BeautifulSoup
 from tkinter import messagebox
+from tkinter import ttk
+
+root = tk.Tk()
+root.geometry("200x200")
+root.title("Main Window")
+# Crear nueva ventana
+tree_view = tk.Toplevel(root)
+tree_view.title("Datos de Autos")
+
+# Crear objeto Treeview
+table = ttk.Treeview(tree_view, columns=("marca", "modelo", "ano", "cilindrada", "color", "nuevo_usado", "presupuesto"))
+
+# Definir encabezados
+table.heading("#0", text="ID")
+table.heading("marca", text="Marca")
+table.heading("modelo", text="Modelo")
+table.heading("ano", text="Año")
+table.heading("cilindrada", text="Cilindrada")
+table.heading("color", text="Color")
+table.heading("nuevo_usado", text="Nuevo o Usado")
+table.heading("presupuesto", text="Presupuesto")
+
+# Estilo de la tabla
+table.column("#0", width=50)
+table.column("marca", width=100)
+table.column("modelo", width=100)
+table.column("ano", width=70)
+table.column("cilindrada", width=100)
+table.column("color", width=70)
+table.column("nuevo_usado", width=100)
+table.column("presupuesto", width=100)
+
+# Agregar Treeview al layout
+table.grid(row=0, column=0)
+def mostrar_datos():
+    # Conectar a la base de datos
+    conn = sqlite3.connect('autos.db')
+    c = conn.cursor()
+
+    # Seleccionar todos los registros de la tabla
+    c.execute("SELECT rowid, * FROM autos")
+    filas = c.fetchall()
+
+    # Borrar datos existentes en la tabla
+    for i in table.get_children():
+        table.delete(i)
+
+    # Insertar los registros en la tabla
+    for fila in filas:
+        table.insert(parent="", index="end", iid=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[5], fila[6], fila[7]))
+
+    # Cerrar la conexión a la base de datos
+    conn.close()
+
+# Agregar botón de "Mostrar datos" a la ventana principal
+mostrar_button = tk.Button(root, text="Mostrar datos", command=mostrar_datos)
+mostrar_button.grid(row=8, column=0, columnspan=2)
 
 def predecir_compra(url):
     try:
